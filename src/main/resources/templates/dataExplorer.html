@@ -1,0 +1,83 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div th:include="~{fragments :: navbar}"></div>
+
+    <label for="attribute">Attributes</label><br>
+    <select id="attribute" th:data-map="${data}" th:data-cl="${classLabel}"
+            onchange="plotData(this.getAttribute('data-map'), this.value, this.getAttribute('data-cl'))"
+            onload="plotData(this.getAttribute('data-map'), this.value, this.getAttribute('data-cl'))">
+        <option th:each="attribute:${attributes}" th:text="${attribute}" th:value="${attribute}"></option>
+    </select>
+
+    <div id="plot"></div>
+
+<div th:include="~{fragments :: footer}"></div>
+
+<script>
+
+    plotData = function (data, attribute, classLabel){
+        let parsedData = JSON.parse(data);
+
+        // If requested attribute is not the class attribute split the data by class label
+        // this creates a stacked barchart
+        if (attribute !== classLabel){
+            let plotData = [];
+            let layout = {barmode: 'stack'}
+            // for every class label, count the occurrence of the labels of the requested attribute
+            for (let key in parsedData){
+                let trace = {
+                    x : [],
+                    y : [],
+                    name: '',
+                    type: 'bar'
+                };
+                if (parsedData.hasOwnProperty(key)){
+                    trace["name"] = key;
+                    trace["x"] = Object.keys(parsedData[key][attribute]);
+                    trace["y"] = Object.values(parsedData[key][attribute]);
+                }
+                plotData.push(trace);
+            }
+            Plotly.newPlot('plot', plotData, layout);
+        }
+
+        // If the requested attribute is the same as the class attribute only plot the class label count
+        // This creates a regular barchart with no split
+        else {
+            let trace = {
+                x: [],
+                y: [],
+                name: '',
+                type: 'bar'
+            }
+            // for every class label, count its occurrence.
+            for (let key in parsedData){
+                if (parsedData.hasOwnProperty(key)){
+                    trace["x"].push(key);
+                    let attrs = Object.keys(parsedData[key]);
+                    let totalCount = 0;
+                    let counts = Object.values(parsedData[key][attrs[0]]);
+                        for (let u = 0; u < counts.length; u++){
+                            totalCount += counts[u];
+                        }
+                    trace["y"].push(totalCount);
+                }
+            }
+            Plotly.newPlot("plot", [trace]);
+        }
+    }
+
+</script>
+
+
+</body>
+</html>
