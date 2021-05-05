@@ -1,10 +1,6 @@
 package nl.bioinf.wekainterface.webcontrol;
 
 import nl.bioinf.wekainterface.model.DataReader;
-<<<<<<< main
-=======
-import nl.bioinf.wekainterface.model.LabelCounter;
->>>>>>> main
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +26,6 @@ public class HomeController {
         return "infoPage";
     }
 
-<<<<<<< main
-    @GetMapping(value = "/explorer")
-    public String getWekaExplorerPage(Model model){
-        DataReader reader = new DataReader();
-        List<String> filenames = reader.getDataSetNames();
-        model.addAttribute("filenames", filenames);
-        return "wekaExplorerPage";
-=======
     @GetMapping(value = "/upload")
     public String getFileUploadPage(Model model) throws IOException {
         DataReader reader = new DataReader();
@@ -59,7 +47,6 @@ public class HomeController {
         model.addAttribute("attributes", labelCounter.getAttributeArray());
         model.addAttribute("classLabel", labelCounter.getClassLabel());
         return "dataExplorer";
->>>>>>> main
     }
 
 }
