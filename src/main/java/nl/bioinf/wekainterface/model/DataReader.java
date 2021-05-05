@@ -19,7 +19,7 @@ public class DataReader implements Reader{
     private String tempFolder;
 
     @Override
-    public Instances InstanceCreator(String fileName) throws IOException {
+    public Instances readArff(String fileName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         ArffLoader.ArffReader arffReader = new ArffLoader.ArffReader(reader);
         Instances data = arffReader.getData();
