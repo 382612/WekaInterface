@@ -10,9 +10,9 @@ import java.util.List;
 public interface Reader {
 
     /**
-     * Given an Arff file, read its contents and return a string with those contents
+     * Given an Arff file, read its contents and return an Instances object with those contents
      */
-    Instances InstanceCreator(String filename) throws IOException;
+    Instances readArff(String filename) throws IOException;
 
     /**
      * Given a CSV, convert the CSV file to an Arff file and save it to a directory.
