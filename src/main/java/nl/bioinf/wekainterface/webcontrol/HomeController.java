@@ -25,6 +25,14 @@ public class HomeController {
     public String getInfoPage(){
         return "infoPage";
     }
+    
+    @GetMapping(value = "/explorer")
+    public String getWekaExplorerPage(Model model){
+        DataReader reader = new DataReader();
+        List<String> filenames = reader.getDataSetNames();
+        model.addAttribute("filenames", filenames);
+        return "wekaExplorerPage";
+    }
 
     @GetMapping(value = "/upload")
     public String getFileUploadPage(Model model) throws IOException {
