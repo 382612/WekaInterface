@@ -8,9 +8,18 @@
           crossorigin="anonymous">
 </head>
 <body>
+<div th:insert="~{fragments :: navbar}"></div>
 
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light" th:text="${name}">_offline_</h1>
+            <h5 class="fw-light" th:text="${information}">_offline_</h5>
+        </div>
+    </div>
+</section>
 
-
+<div th:insert="~{fragments :: footer}"></div>
 
 </body>
 </html>

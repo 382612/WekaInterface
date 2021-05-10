@@ -1,29 +1,73 @@
 package nl.bioinf.wekainterface.webcontrol;
 
+import nl.bioinf.wekainterface.model.AlgortihmsInformation;
 import nl.bioinf.wekainterface.model.DataReader;
 import nl.bioinf.wekainterface.model.LabelCounter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import weka.core.Instances;
 
 import java.io.IOException;
 
 /**
- * @author Marijke Eggink
+ * @author Marijke Eggink, Jelle Becirspahic & Bart Engels
  */
 
 @Controller
+
 public class HomeController {
     @GetMapping(value = "/home")
     public String getLandingPage(){
         return "landingpage";
     }
 
-    @GetMapping(value = "/information")
+
+    @RequestMapping(value="information")
     public String getInfoPage(){
-        return "infoPage";
+            return "infoPage";
+        }
+
+        @GetMapping(value = "/j48")
+        public String getInfoPageJ48(Model model){
+            AlgortihmsInformation algortihmsInformation = new AlgortihmsInformation("J48", "Infromation");
+            model.addAttribute("name", algortihmsInformation.getName());
+            model.addAttribute("information", algortihmsInformation.getInformation());
+        return "infAlgorithms";
+        }
+
+    @GetMapping(value = "/NayvesBayes")
+    public String getInfoPageNayvesBayes(Model model){
+        AlgortihmsInformation algortihmsInformation = new AlgortihmsInformation("NayvesBayes", "Infromation");
+        model.addAttribute("name", algortihmsInformation.getName());
+        model.addAttribute("information", algortihmsInformation.getInformation());
+        return "infAlgorithms";
     }
+
+    @GetMapping(value = "/IBK")
+    public String getInfoPageIBK(Model model){
+        AlgortihmsInformation algortihmsInformation = new AlgortihmsInformation("IBK", "Infromation");
+        model.addAttribute("name", algortihmsInformation.getName());
+        model.addAttribute("information", algortihmsInformation.getInformation());
+        return "infAlgorithms";
+    }
+
+    @GetMapping(value = "/OneR")
+    public String getInfoPageOneR(Model model){
+        AlgortihmsInformation algortihmsInformation = new AlgortihmsInformation("OneR", "Infromation");
+        model.addAttribute("name", algortihmsInformation.getName());
+        model.addAttribute("information", algortihmsInformation.getInformation());
+        return "infAlgorithms";
+    }
+    @GetMapping(value = "/ZeroR")
+    public String getInfoPageZeroR(Model model){
+        AlgortihmsInformation algortihmsInformation = new AlgortihmsInformation("ZeroR", "Infromation");
+        model.addAttribute("name", algortihmsInformation.getName());
+        model.addAttribute("information", algortihmsInformation.getInformation());
+        return "infAlgorithms";
+    }
+
 
     @GetMapping(value = "/upload")
     public String getFileUploadPage(Model model) throws IOException {
