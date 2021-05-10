@@ -1,0 +1,33 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!--@author Marijke Eggink -->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Weka</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div th:insert="~{fragments :: navbar}"></div>
+<div class="container pt-3">
+  <div class="row">
+    <h2>Weka Explorer</h2>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-4 offset-1">
+      <label for="form-select">Please select the demo file that you would like to use: </label>
+      <select class="form-select" id="form-select">
+        <option th:each="file: ${filenames}" th:value="${file}" th:text="${file}"></option>
+      </select>
+    </div>
+    <div class="col-4 offset-1">
+      <p>Or upload your own file</p>
+    </div>
+  </div>
+</div>
+
+<div th:insert="~{fragments :: footer}"></div>
+
+</body>
+</html>

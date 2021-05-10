@@ -36,7 +36,7 @@ public class DataReader implements Reader{
 
     @Override
     public List<String> getDataSetNames() {
-        File folder = new File(exampleFilesFolder);
+        File folder = new File("/Users/Marijke/wekafiles/data");
         File[] listOfFiles = folder.listFiles();
         List<String> fileNames = new ArrayList<>();
         for (File file: listOfFiles){
