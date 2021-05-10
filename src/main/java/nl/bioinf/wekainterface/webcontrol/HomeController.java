@@ -25,7 +25,7 @@ public class HomeController {
     public String getInfoPage(){
         return "infoPage";
     }
-    
+
     @GetMapping(value = "/explorer")
     public String getWekaExplorerPage(Model model){
         DataReader reader = new DataReader();
@@ -37,7 +37,7 @@ public class HomeController {
     @GetMapping(value = "/upload")
     public String getFileUploadPage(Model model) throws IOException {
         DataReader reader = new DataReader();
-        String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
+        String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
         Instances data = reader.readArff(file);
         System.out.println(data.get(0));
         model.addAttribute("data", data.toString());
@@ -46,7 +46,7 @@ public class HomeController {
 
     @GetMapping(value = "/test")
     public String plotWeatherData(Model model) throws IOException {
-        String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
+        String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
         LabelCounter labelCounter = new LabelCounter();
         labelCounter.readData(file);
         labelCounter.setGroups();
