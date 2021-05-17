@@ -1,11 +1,9 @@
 package nl.bioinf.wekainterface.webcontrol;
 
-import nl.bioinf.wekainterface.model.DataReader;
 import nl.bioinf.wekainterface.model.LabelCounter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import weka.core.Instances;
 
 import java.io.IOException;
 
