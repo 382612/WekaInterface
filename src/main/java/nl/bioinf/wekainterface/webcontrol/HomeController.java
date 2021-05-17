@@ -1,12 +1,10 @@
 package nl.bioinf.wekainterface.webcontrol;
 
-import nl.bioinf.wekainterface.model.DataReader;
 import nl.bioinf.wekainterface.model.LabelCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import weka.core.Instances;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +29,17 @@ public class HomeController {
         return "infoPage";
     }
 
+
+    @GetMapping(value = "/about")
+    public String getFileUploadPage(){
+        return "about";
+    }
+
+    @GetMapping(value = "/contact")
+    public String getContactPage(){
+        return "contact";
+    }
+
     @GetMapping(value = "/upload")
     public String getFileUploadPage(Model model) throws IOException {
         String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
@@ -38,6 +47,7 @@ public class HomeController {
         System.out.println(data.get(0));
         model.addAttribute("data", data.toString());
         return "file-upload";
+
     }
 
     @GetMapping(value = "/test")
