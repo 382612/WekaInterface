@@ -1,18 +1,24 @@
 package nl.bioinf.wekainterface.webcontrol;
 
 import nl.bioinf.wekainterface.model.LabelCounter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
- * @author Marijke Eggink
+ * @author Marijke, Jelle, Bart
  */
 
 @Controller
 public class HomeController {
+
+    @Autowired
+    private DataReader dataReader;
+
     @GetMapping(value = "/home")
     public String getLandingPage(){
         return "landingpage";
@@ -22,6 +28,7 @@ public class HomeController {
     public String getInfoPage(){
         return "infoPage";
     }
+
 
     @GetMapping(value = "/about")
     public String getFileUploadPage(){
@@ -33,9 +40,19 @@ public class HomeController {
         return "contact";
     }
 
+    @GetMapping(value = "/upload")
+    public String getFileUploadPage(Model model) throws IOException {
+        String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
+        Instances data = dataReader.readArff(file);
+        System.out.println(data.get(0));
+        model.addAttribute("data", data.toString());
+        return "file-upload";
+
+    }
+
     @GetMapping(value = "/test")
     public String plotWeatherData(Model model) throws IOException {
-        String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
+        String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
         LabelCounter labelCounter = new LabelCounter();
         labelCounter.readData(file);
         labelCounter.setGroups();
