@@ -25,14 +25,14 @@ public class HomeController {
         return "infoPage";
     }
 
-    @GetMapping(value = "/upload")
-    public String getFileUploadPage(Model model) throws IOException {
-        DataReader reader = new DataReader();
-        String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
-        Instances data = reader.readArff(file);
-        System.out.println(data.get(0));
-        model.addAttribute("data", data.toString());
-        return "file-upload";
+    @GetMapping(value = "/about")
+    public String getFileUploadPage(){
+        return "about";
+    }
+
+    @GetMapping(value = "/contact")
+    public String getContactPage(){
+        return "contact";
     }
 
     @GetMapping(value = "/test")
