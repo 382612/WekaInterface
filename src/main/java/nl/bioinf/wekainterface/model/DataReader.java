@@ -11,6 +11,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class reads data and converts a csv file to an arff file
+ * @author Jelle, Marijke
+ */
+
 @Component
 public class DataReader implements Reader{
     @Value("${example.data.path}")
@@ -18,6 +23,12 @@ public class DataReader implements Reader{
     @Value("${temp.data.path}")
     private String tempFolder;
 
+    /**
+     * This method reads an arff file and returns the instances.
+     * @param fileName name of the arff file
+     * @return Dataset instances
+     * @throws IOException
+     */
     @Override
     public Instances readArff(String fileName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
@@ -27,6 +38,11 @@ public class DataReader implements Reader{
         return data;
     }
 
+    /**
+     * This method converts and csv file to an arff file.
+     * @param fileName name of the csv file
+     * @throws IOException
+     */
     @Override
     public void CsvToArff(String fileName) throws IOException {
         CSVLoader loader = new CSVLoader();
@@ -34,6 +50,10 @@ public class DataReader implements Reader{
         Instances data = loader.getDataSet();
     }
 
+    /**
+     * This method creates a list of the demo data names.
+     * @return List of demo filenames
+     */
     @Override
     public List<String> getDataSetNames() {
         File folder = new File(exampleFilesFolder);
@@ -45,6 +65,11 @@ public class DataReader implements Reader{
         return fileNames;
     }
 
+    /**
+     * This method safes an arff file to a temporarily folder.
+     * @param file Arff file
+     * @throws IOException
+     */
     @Override
     public void saveArff(File file) throws IOException {
         ArffSaver saver = new ArffSaver();
@@ -52,12 +77,15 @@ public class DataReader implements Reader{
         saver.setDestination(new File(tempFolder));
     }
 
+    /**
+     * Not implemented yet
+     * @param instances
+     * @throws IOException
+     */
     @Override
     public void saveArff(Instances instances) throws IOException {
         ArffSaver saver = new ArffSaver();
         saver.setFile(new File(tempFolder));
         saver.writeBatch();
-
-
     }
 }

@@ -16,7 +16,7 @@ public class LabelCounter {
 
     private Instances data;
     private List<String> attributeArray = new ArrayList<>();
-    private Map<String, Map<String, Map<String, Integer>>> groups = new HashMap<>();
+    private Map<String, AttributeMap> groups = new HashMap<>();
 
     /**
      * Reads arff file and stores Instances in the class
@@ -39,7 +39,7 @@ public class LabelCounter {
             // Setting the class label as the key for the first Map, in the case of weather.nominal = {yes,no}
             String classLabel = this.data.classAttribute().value(i);
             // creating the 2nd Map with attribute names as keys and labels as value's
-            Map<String, Map<String, Integer>> attributes = setAttributes();
+            AttributeMap attributes = setAttributes();
 
             this.groups.put(classLabel, attributes);
         }
@@ -50,9 +50,9 @@ public class LabelCounter {
      * value for this key. This Map holds each attribute label as its key and the occurrence of this label as its value.
      * @return Map<Attribute name, Map<Attribute label, Label occurrence>>
      */
-    private Map<String, Map<String, Integer>> setAttributes(){
+    private AttributeMap setAttributes(){
         // creating the Map with attribute names as keys and labels as value's
-        Map<String, Map<String, Integer>> attributes = new HashMap<>();
+        AttributeMap attributes = new AttributeMap();
 
         for (int u = 0; u < this.data.numAttributes(); u++){ // iterating over each attribute name
 
@@ -78,14 +78,14 @@ public class LabelCounter {
      * @param attribute attribute name
      * @param attributeMap Map<Attribute name, Map<Attribute label, Label occurrence>> where attribute labels need to be added
      */
-    private void setLabels(int attributeIndex, String attribute, Map<String, Map<String, Integer>> attributeMap){
+    private void setLabels(int attributeIndex, String attribute, AttributeMap attributeMap){
         // bottom level map that holds the label as key and it's occurrence count as value
-        Map<String, Integer> labels = new HashMap<>();
+        LabelMap labelMap = new LabelMap();
         for (int y=0;y<this.data.attribute(attributeIndex).numValues();y++){ // iterate over each label
             String label = this.data.attribute(attributeIndex).value(y);
-            labels.put(label, 0); // label is added with an occurrence of 0
+            labelMap.addLabel(label); // label is added with an occurrence of 0
         }
-        attributeMap.put(attribute, labels);
+        attributeMap.addAttribute(attribute, labelMap);
     }
 
     /**
@@ -98,14 +98,14 @@ public class LabelCounter {
             for (int u = 0; u < instance.numValues(); u++){ // iterate over the values in the instance
                 // attributeMap is the map containing the attribute as the key and the labels + their counts as the
                 // Value in the form of a submap
-                Map<String, Map<String, Integer>> attributeMap = groups.get(values[instance.classIndex()]); // Get attribute map for the right class label
+                AttributeMap attributeMap = groups.get(values[instance.classIndex()]); // Get attribute map for the right class label
                 if(u != instance.classIndex()){
                     // getting the labels and their count for the attribute
                     String attribute = attributeArray.get(u);
-                    Map<String, Integer> labelMap = attributeMap.get(attribute);
+                    LabelMap labelMap = attributeMap.getLabelMap(attribute);
 
                     String label = values[u]; // The label of the attribute attribute:label windy:TRUE
-                    labelMap.computeIfPresent(label, (key, oldValue) -> oldValue+1); // adding a count
+                    labelMap.incrementLabel(label); // adding a count
                 }
             }
         }
@@ -126,7 +126,10 @@ public class LabelCounter {
      */
     public String mapToJSON() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(groups);
+        Map<String, Map<String, Map<String, Integer>>> countMap = new HashMap<>();
+        groups.forEach((classLabel, attributeMap) ->
+                countMap.put(classLabel, attributeMap.getJsonMap()));
+        return objectMapper.writeValueAsString(countMap);
     }
 
 
