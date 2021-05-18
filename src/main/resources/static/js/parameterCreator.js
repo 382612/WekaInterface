@@ -1,3 +1,7 @@
+/**
+ * @author Jelle
+ * each variable holds an input for classifier settings that can be called depending on which classifier is requested.
+ */
 
 let questionMarkIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-question-circle\" viewBox=\"0 0 16 16\">\n" +
     "  <path d=\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\"/>\n" +
@@ -64,6 +68,9 @@ let nnSearchAlgorithm = "  <label th:text=\"\" for=\"nnSearchAlgorithm\">nnSearc
     "    <option value=\"LinearNNSearch\">LinearNNSearch</option>\n" +
     "  </select><br>"
 
+/**
+ * Get parameter inputs for ZeroR classifier
+ */
 let getZeroR = function (){
     document.querySelector("#ZeroR").innerHTML =
         "<form>" +

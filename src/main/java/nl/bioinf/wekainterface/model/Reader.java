@@ -3,10 +3,12 @@ package nl.bioinf.wekainterface.model;
 import weka.core.Instances;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Interface for a class that reads and saves files
+ */
 public interface Reader {
 
     /**
@@ -17,7 +19,7 @@ public interface Reader {
     /**
      * Given a CSV, convert the CSV file to an Arff file and save it to a directory.
      */
-    void CsvToArff(String fileName) throws IOException;
+    Instances CsvToArff(File file) throws IOException;
 
     /**
      * Gets the names of all demo datasets that are included in WEKA

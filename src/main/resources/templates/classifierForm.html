@@ -3,7 +3,7 @@
 <head>
   <!--@author Marijke Eggink -->
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <title>Weka</title>
+  <title>Klessify</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -21,6 +21,8 @@
         <select class="form-select" id="file-name" name="filename">
           <option th:each="file: ${filenames}" th:value="${file}" th:text="${file}"></option>
         </select>
+        <label class="form-label" for="userFile">or upload your own</label>
+        <input id="userFile" type="file">
       </div>
       <div class="pt-3">
         Select the classifier:
