@@ -8,10 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -20,6 +17,8 @@ public class ExplorerController {
 
     @Autowired
     private DataReader dataReader;
+    @Autowired
+    private LabelCounter labelCounter;
 
     @GetMapping(value = "/explorer")
     public String getClassifierFormPage(Model model){
@@ -45,7 +44,6 @@ public class ExplorerController {
     @GetMapping(value = "/test")
     public String plotWeatherData(Model model) throws IOException {
         String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
-        LabelCounter labelCounter = new LabelCounter();
         labelCounter.readData(file);
         labelCounter.setGroups();
         labelCounter.countLabels();

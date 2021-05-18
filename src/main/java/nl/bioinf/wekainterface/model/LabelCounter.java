@@ -2,6 +2,7 @@ package nl.bioinf.wekainterface.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 import weka.core.Instance;
 import weka.core.Instances;
 
@@ -12,6 +13,7 @@ import java.util.*;
 @author jelle
  */
 
+@Component
 public class LabelCounter {
 
     private Instances data;
