@@ -45,7 +45,7 @@ public class ExplorerController {
 
     @GetMapping(value = "/test")
     public String plotWeatherData(Model model) throws IOException {
-        String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
+        String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
         labelCounter.readData(new File(file));
         labelCounter.setGroups();
         labelCounter.countLabels();

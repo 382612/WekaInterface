@@ -14,8 +14,9 @@
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light" th:text="${name}">_offline_</h1>
-            <h5 class="fw-light" th:text="${information}">_offline_</h5>
+            <h5 class="fw-light" th:text=" #{${name + '.information'}}"> _offline_</h5>
         </div>
+        <div th:insert="~{fragments::AlgoButtons}"></div>
     </div>
 </section>
 
