@@ -47,18 +47,6 @@ public class WekaClassifier {
         }
         Evaluation evaluation = new Evaluation(instances);
         evaluation.crossValidateModel(rule, instances, 10, new Random(1));
-        return evaluation.toSummaryString("\nResults\n======\n", false);
-    }
-
-    /**
-     * main for testing class
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String[] args) throws Exception {
-        DataReader dataReader = new DataReader();
-        Instances instances = dataReader.readArff(new File("/Users/Marijke/wekafiles/data/weather.nominal.arff"));
-        WekaClassifier classifier = new WekaClassifier();
-        System.out.println(classifier.Test(instances, "IBK"));
+        return evaluation.toSummaryString();
     }
 }
