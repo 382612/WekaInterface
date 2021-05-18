@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.util.*;
 
 /**
-@author jelle
+@author jelle 387615
+ Given a File, counts the occurrence of each label for each attribute and seperates it by classlabel
  */
-
 @Component
 public class LabelCounter {
 
@@ -135,7 +135,11 @@ public class LabelCounter {
         return objectMapper.writeValueAsString(countMap);
     }
 
-
+    /**
+     * Main function for testing class
+     * @param args no args
+     * @throws IOException if file doesn't exist
+     */
     public static void main(String[] args) throws IOException {
         String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
         LabelCounter labelCounter = new LabelCounter();
@@ -144,5 +148,4 @@ public class LabelCounter {
         labelCounter.countLabels();
         System.out.println(labelCounter.mapToJSON());
     }
-
 }
