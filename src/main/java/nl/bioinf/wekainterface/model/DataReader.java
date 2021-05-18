@@ -7,6 +7,7 @@ import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVLoader;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +26,13 @@ public class DataReader implements Reader{
 
     /**
      * This method reads an arff file and returns the instances.
-     * @param fileName name of the arff file
+     * @param file name of the arff file
      * @return Dataset instances
      * @throws IOException
      */
     @Override
-    public Instances readArff(String fileName) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+    public Instances readArff(File file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         ArffLoader.ArffReader arffReader = new ArffLoader.ArffReader(reader);
         Instances data = arffReader.getData();
         data.setClassIndex(data.numAttributes() - 1);
@@ -71,10 +72,14 @@ public class DataReader implements Reader{
      * @throws IOException
      */
     @Override
-    public void saveArff(File file) throws IOException {
+    public String saveArff(File file) throws IOException {
+        File tempFile = File.createTempFile("temp-", ".arff", new File("C:/Users/jelle/Desktop/School/Thema11/Practicum/wekaTempFiles"));
+        Instances instances = readArff(file);
         ArffSaver saver = new ArffSaver();
-        saver.setFile(new File(tempFolder));
-        saver.setDestination(new File(tempFolder));
+        saver.setInstances(instances);
+        saver.setFile(tempFile);
+        saver.writeBatch();
+        return tempFile.toString();
     }
 
     /**
@@ -87,5 +92,11 @@ public class DataReader implements Reader{
         ArffSaver saver = new ArffSaver();
         saver.setFile(new File(tempFolder));
         saver.writeBatch();
+    }
+
+    public static void main(String[] args) throws IOException {
+        DataReader dataReader = new DataReader();
+        //Instead of using a hardcoded path use the application.properties variable tempFolder
+        System.out.println(dataReader.saveArff(new File("C:/Program Files/Weka-3-8-4/data/weather.nominal.arff")));
     }
 }

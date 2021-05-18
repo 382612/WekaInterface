@@ -8,6 +8,7 @@ import weka.classifiers.rules.ZeroR;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -56,7 +57,7 @@ public class WekaClassifier {
      */
     public static void main(String[] args) throws Exception {
         DataReader dataReader = new DataReader();
-        Instances instances = dataReader.readArff("/Users/Marijke/wekafiles/data/weather.nominal.arff");
+        Instances instances = dataReader.readArff(new File("/Users/Marijke/wekafiles/data/weather.nominal.arff"));
         WekaClassifier classifier = new WekaClassifier();
         System.out.println(classifier.Test(instances, "IBK"));
     }
