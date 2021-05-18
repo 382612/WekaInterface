@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -44,7 +46,7 @@ public class ExplorerController {
     @GetMapping(value = "/test")
     public String plotWeatherData(Model model) throws IOException {
         String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
-        labelCounter.readData(file);
+        labelCounter.readData(new File(file));
         labelCounter.setGroups();
         labelCounter.countLabels();
         model.addAttribute("data", labelCounter.mapToJSON());

@@ -12,7 +12,7 @@ public interface Reader {
     /**
      * Given an Arff file, read its contents and return an Instances object with those contents
      */
-    Instances readArff(String filename) throws IOException;
+    Instances readArff(File file) throws IOException;
 
     /**
      * Given a CSV, convert the CSV file to an Arff file and save it to a directory.
@@ -29,7 +29,7 @@ public interface Reader {
      * Saves given file to a directory
      * @param file Arff file
      */
-    void saveArff(File file) throws IOException;
+    String saveArff(File file) throws IOException;
 
     /**
      * Saves given instances in an Arff file to a destination

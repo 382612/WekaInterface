@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import weka.core.Instance;
 import weka.core.Instances;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -25,7 +26,7 @@ public class LabelCounter {
      * @param file arff file
      * @throws IOException if file can't be found
      */
-    public void readData(String file) throws IOException {
+    public void readData(File file) throws IOException {
         DataReader reader = new DataReader();
         data = reader.readArff(file);
     }
@@ -138,7 +139,7 @@ public class LabelCounter {
     public static void main(String[] args) throws IOException {
         String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
         LabelCounter labelCounter = new LabelCounter();
-        labelCounter.readData(file);
+        labelCounter.readData(new File(file));
         labelCounter.setGroups();
         labelCounter.countLabels();
         System.out.println(labelCounter.mapToJSON());
