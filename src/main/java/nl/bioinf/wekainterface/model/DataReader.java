@@ -6,14 +6,12 @@ import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVLoader;
-
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class reads data and converts a csv file to an arff file
+ * This class is used to process and save datasets as arff's
  * @author Jelle, Marijke
  */
 
@@ -26,9 +24,9 @@ public class DataReader implements Reader{
 
     /**
      * This method reads an arff file and returns the instances.
-     * @param file name of the arff file
+     * @param file file as a File object
      * @return Dataset instances
-     * @throws IOException
+     * @throws IOException if the file doesn't exist
      */
     @Override
     public Instances readArff(File file) throws IOException {
@@ -40,15 +38,18 @@ public class DataReader implements Reader{
     }
 
     /**
-     * This method converts and csv file to an arff file.
-     * @param fileName name of the csv file
-     * @throws IOException
+     * Convert a CSV file to arff Format
+     * @param file file as File object
+     * @return Instances data
+     * @throws IOException if file doesn't exist
      */
     @Override
-    public void CsvToArff(String fileName) throws IOException {
+    public Instances CsvToArff(File file) throws IOException {
         CSVLoader loader = new CSVLoader();
-        loader.setSource(new File(fileName));
+        loader.setSource(file);
         Instances data = loader.getDataSet();
+        data.setClassIndex(data.numAttributes() - 1);
+        return data;
     }
 
     /**
@@ -67,9 +68,10 @@ public class DataReader implements Reader{
     }
 
     /**
-     * This method safes an arff file to a temporarily folder.
+     * This method saves an arff file to a temporarily folder.
      * @param file Arff file
-     * @throws IOException
+     * @throws IOException if the file doesn't exist
+     * @return Absolute path of the temp file
      */
     @Override
     public String saveArff(File file) throws IOException {
@@ -94,6 +96,11 @@ public class DataReader implements Reader{
         saver.writeBatch();
     }
 
+    /**
+     * main function for testing the class.
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         DataReader dataReader = new DataReader();
         //Instead of using a hardcoded path use the application.properties variable tempFolder
