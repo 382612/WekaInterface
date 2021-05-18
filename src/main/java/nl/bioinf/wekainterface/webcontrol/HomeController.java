@@ -17,21 +17,19 @@ import java.io.IOException;
 import java.util.List;
 
 
+/**
  * @author Marijke Eggink, Jelle Becirspahic & Bart Engels
+  */
 
 
 @Controller
 
 public class HomeController {
 
-    @Autowired
-    private DataReader dataReader;
-
     @GetMapping(value = "/home")
     public String getLandingPage(){
         return "landingpage";
     }
-
 
     @GetMapping(value = "/about")
     public String getFileUploadPage(){
@@ -41,20 +39,6 @@ public class HomeController {
     @GetMapping(value = "/contact")
     public String getContactPage(){
         return "contact";
-    }
-
-   
-    @GetMapping(value = "/test")
-    public String plotWeatherData(Model model) throws IOException {
-        String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
-        LabelCounter labelCounter = new LabelCounter();
-        labelCounter.readData(file);
-        labelCounter.setGroups();
-        labelCounter.countLabels();
-        model.addAttribute("data", labelCounter.mapToJSON());
-        model.addAttribute("attributes", labelCounter.getAttributeArray());
-        model.addAttribute("classLabel", labelCounter.getClassLabel());
-        return "dataExplorer";
     }
 
 }
