@@ -10,6 +10,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" th:fragment="navbar">
+<!--    -->
     <div class="container fluid justify-content-start">
         <a class="navbar-brand" th:href="@{'/home'}">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="d-inline-block align-center" viewBox="0 0 16 16">
@@ -23,7 +24,7 @@
                     <a th:href="@{'/home'}" th:text="#{navbar.home}" class="nav-link">_home_</a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{'/home'}" th:text="#{navbar.about}" class="nav-link">_About_</a>
+                    <a th:href="@{'/about'}" th:text="#{navbar.about}" class="nav-link">_About_</a>
                 </li>
                 <li class="nav-item">
                     <a th:href="@{'/contact'}" th:text="#{navbar.contact}" class="nav-link">_Contact_</a>
@@ -38,7 +39,33 @@
 </nav>
 
 
+<div th:fragment="AlgoButtons" >
+    <!--    Author: Bart Engels 382612-->
+    <p>
+        <a href="/ZeroR" class="btn btn-danger my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        </svg> ZeroR</a>
+        <a href="/OneR" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dice-1-fill" viewBox="0 0 16 16">
+            <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm5 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+        </svg> OneR</a>
+        <a href="/NayvesBayes" class="btn btn-danger my-2"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+        </svg> Nayves Bayes</a>
+        <a href="/IBK" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+            <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+        </svg> IBK</a>
+        <a href="/j48" class="btn btn-success my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill" viewBox="0 0 16 16">
+            <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777l-3-4.5z"/>
+        </svg> J48</a>
+        <a href="/information" class="btn btn-danger my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+        </svg> Back</a>
+    </p>
+
+</div>
+
 <footer th:fragment="footer" class="bg-light text-center text-lg-start">
+    <hr>
     <div class="row">
         <div class="col-4 text-center">
             <h6>Hanze contact info</h6>
