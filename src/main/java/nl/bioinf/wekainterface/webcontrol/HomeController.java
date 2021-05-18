@@ -1,19 +1,27 @@
 package nl.bioinf.wekainterface.webcontrol;
 
+import nl.bioinf.wekainterface.model.AlgortihmsInformation;
+import nl.bioinf.wekainterface.model.DataReader;
+
 import nl.bioinf.wekainterface.model.LabelCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import weka.core.Instances;
+
+
 import java.io.IOException;
 import java.util.List;
 
-/**
- * @author Marijke, Jelle, Bart
- */
+
+ * @author Marijke Eggink, Jelle Becirspahic & Bart Engels
+
 
 @Controller
+
 public class HomeController {
 
     @Autowired
@@ -22,11 +30,6 @@ public class HomeController {
     @GetMapping(value = "/home")
     public String getLandingPage(){
         return "landingpage";
-    }
-
-    @GetMapping(value = "/information")
-    public String getInfoPage(){
-        return "infoPage";
     }
 
 
@@ -40,16 +43,7 @@ public class HomeController {
         return "contact";
     }
 
-    @GetMapping(value = "/upload")
-    public String getFileUploadPage(Model model) throws IOException {
-        String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";
-        Instances data = dataReader.readArff(file);
-        System.out.println(data.get(0));
-        model.addAttribute("data", data.toString());
-        return "file-upload";
-
-    }
-
+   
     @GetMapping(value = "/test")
     public String plotWeatherData(Model model) throws IOException {
         String file = "/Users/Marijke/wekafiles/data/weather.nominal.arff";

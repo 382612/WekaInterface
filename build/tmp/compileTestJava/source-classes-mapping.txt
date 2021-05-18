@@ -1,0 +1,2 @@
+nl/bioinf/wekainterface/WekaInterfaceApplicationTests.java
+ nl.bioinf.wekainterface.WekaInterfaceApplicationTests
