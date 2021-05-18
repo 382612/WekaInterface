@@ -8,6 +8,7 @@ import weka.classifiers.rules.ZeroR;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -31,7 +32,7 @@ public class WekaClassifier {
             case "OneR":
                 rule = new OneR();
                 break;
-            case "Naives Bayes":
+            case "NaivesBayes":
                 rule = new NaiveBayes();
                 break;
             case "J48":
@@ -46,5 +47,17 @@ public class WekaClassifier {
         Evaluation evaluation = new Evaluation(instances);
         evaluation.crossValidateModel(rule, instances, 10, new Random(1));
         return evaluation.toSummaryString("\nResults\n======\n", false);
+    }
+
+    /**
+     * main for testing class
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        DataReader dataReader = new DataReader();
+        Instances instances = dataReader.readArff("/Users/Marijke/wekafiles/data/weather.nominal.arff");
+        WekaClassifier classifier = new WekaClassifier();
+        System.out.println(classifier.Test(instances, "IBK"));
     }
 }
