@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
@@ -30,18 +31,17 @@ public class ExplorerController {
     }
 
     @PostMapping(value = "/explorer")
-    public String postClassifierFormPage(HttpServletRequest request, RedirectAttributes redirect){
-        String filename = request.getParameter("file-name");
-        redirect.addFlashAttribute("filename", filename);
-        return "redirect:/results";
+    public String postClassifierFormPage(@RequestParam(name = "filename") String fileName,
+                                         Model model, RedirectAttributes redirect){
+        redirect.addFlashAttribute("filename", fileName);
+        return "redirect:/explorer/results";
     }
 
-    @GetMapping(value = "/results")
+    @GetMapping(value = "/explorer/results")
     public String getResultsPage(Model model){
-        String filename = (String) model.getAttribute("filename");
-        model.addAttribute("filename", filename);
         return "results";
     }
+
 
     @GetMapping(value = "/test")
     public String plotWeatherData(Model model) throws IOException {

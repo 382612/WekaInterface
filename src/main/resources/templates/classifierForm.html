@@ -18,7 +18,7 @@
     <form th:action="@{'/explorer'}" method="post">
       <div>
         <label for="file-name">Select the demo file that you would like to use: </label><br>
-        <select class="form-select" id="file-name">
+        <select class="form-select" id="file-name" name="filename">
           <option th:each="file: ${filenames}" th:value="${file}" th:text="${file}"></option>
         </select>
       </div>
@@ -36,7 +36,7 @@
         <input id="IBK" type="radio" name="classifier" value="IBK">
         <label for="IBK">IBK</label>
       </div>
-      <input type="submit" value="submit">
+      <input type="submit" value="submit"  class="btn btn-outline-secondary" >
     </form>
   </div>
 </div>
