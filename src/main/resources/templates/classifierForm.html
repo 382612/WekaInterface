@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!--@author Marijke Eggink -->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Weka</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div th:insert="~{fragments :: navbar}"></div>
+<div class="container pt-3">
+  <div class="row">
+    <h2>Weka Explorer</h2>
+  </div>
+  <hr>
+  <div class="row">
+    <form th:action="@{'/explorer'}" method="post">
+      <div>
+        <label for="file-name">Select the demo file that you would like to use: </label><br>
+        <select class="form-select" id="file-name">
+          <option th:each="file: ${filenames}" th:value="${file}" th:text="${file}"></option>
+        </select>
+      </div>
+      <div class="pt-3">
+        Select the classifier:
+        <br>
+        <input id="ZeroR" type="radio" name="classifier" value="ZeroR">
+        <label for="ZeroR">ZeroR</label>
+        <input id="OneR" type="radio" name="classifier" value="OneR">
+        <label for="OneR">OneR</label>
+        <input id="NaivesBayes" type="radio" name="classifier" value="NaivesBayes">
+        <label for="NaivesBayes">Naives Bayes</label>
+        <input id="J48" type="radio" name="classifier" value="J48">
+        <label for="J48">J48</label>
+        <input id="IBK" type="radio" name="classifier" value="IBK">
+        <label for="IBK">IBK</label>
+      </div>
+      <input type="submit" value="submit">
+    </form>
+  </div>
+</div>
+
+<div th:insert="~{fragments :: footer}"></div>
+
+</body>
+</html>
