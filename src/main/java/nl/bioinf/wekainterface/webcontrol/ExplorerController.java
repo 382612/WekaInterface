@@ -32,10 +32,14 @@ public class ExplorerController {
     private DataReader dataReader;
     @Autowired
     private LabelCounter labelCounter;
+    @Autowired
+    private WekaClassifier wekaClassifier;
 
     @GetMapping(value = "/explorer")
     public String getClassifierFormPage(Model model){
+        List<String> classifierNames = wekaClassifier.getClassifierNames();
         List<String> filenames = dataReader.getDataSetNames();
+        model.addAttribute("classifierNames", classifierNames);
         model.addAttribute("filenames", filenames);
         return "classifierForm";
     }
@@ -46,11 +50,9 @@ public class ExplorerController {
                                          Model model, RedirectAttributes redirect) throws Exception {
         String filePath = exampleFilesFolder + '/' + fileName;
 
-        DataReader reader = new DataReader();
         File file = new File(filePath);
-        Instances data = reader.readArff(file);
-        WekaClassifier wekaClassifier = new WekaClassifier();
-        String resString = wekaClassifier.Test(data, classifier);
+        Instances data = dataReader.readArff(file);
+        String resString = wekaClassifier.test(data, classifier);
         System.out.println(resString);
         String[] elements = resString.split("\n");
         List<String> result = Arrays.asList(elements);
