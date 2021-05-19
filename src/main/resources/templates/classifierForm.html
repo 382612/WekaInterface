@@ -31,8 +31,10 @@
           <input type="file" class="custom-file-input" id="inputFile">
           <label class="custom-file-label" for="inputFile" th:text="#{form.choose}"></label>
         </div>
-        <div th:each="name:${classifierNames}" class="pt-3">
+        <div class="pt-3">
           <p th:text="#{form.classifier.select}"></p>
+        </div>
+        <div th:each="name:${classifierNames}">
           <input th:id="${name}" type="radio" name="classifier" th:value="${name}">
           <label th:for="${name}" th:text="${name}"></label>
         </div>
