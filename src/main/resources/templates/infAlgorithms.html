@@ -10,78 +10,26 @@
 <body>
 <div th:insert="~{fragments :: navbar}"></div>
 
-<section class="py-5 text-center container">
+<section class="py-5 text-center container" >
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light" th:text="${name}">_offline_</h1>
-            <h5 class="fw-light" th:text=" #{${name + '.information'}}"> _offline_</h5>
+            <h1 class="fw-light" th:text="#{information.title}" > WekaAlgorithms</h1>
+            <h5 class="fw-light" th:text="#{WekaAlgorithms.information}"> _offline_</h5>
         </div>
 
     <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne" >
-                <button class="accordion-button collapsed" type = "button" data-toggle = "collapse" data-target = "#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseTwo">
-                   <h3 class="fw-light" > <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+        <div class="accordion-item"  th:each="Algoname : ${Algonames}">
+            <h2 class="accordion-header" th:id="'flush-heading' + ${Algoname}" >
+                <button class="accordion-button collapsed" type = "button" data-toggle = "collapse" th:data-target = "'#flush-collapse' + ${Algoname}" aria-expanded="false" aria-controls="flush-collapseTwo">
+                   <h3 class="fw-light" th:text="${Algoname}"> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                   </svg> ZeroR</h3>
+                   </svg> _Offline_ </h3>
                 </button>
             </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body"><h5 class="fw-light" th:text="#{J48.information}"></h5></div>
+            <div th:id="'flush-collapse' + ${Algoname}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body"><h5 class="fw-light" th:text=" #{${Algoname + '.information'}}"></h5></div>
             </div>
         </div>
-        <div class="accordion-item">
-        <h2 class="accordion-header" id="flush-headingTwo" >
-            <button class="accordion-button collapsed" type = "button" data-toggle = "collapse" data-target = "#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-             <h3 class="fw-light">   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-dice-1-fill" viewBox="0 0 16 16">
-                    <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm5 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                </svg> OneR </h3>
-            </button>
-        </h2>
-        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body"><h5 class="fw-light" th:text="#{J48.information}"></h5></div>
-        </div>
-    </div>
-        <div class="accordion-item">
-        <h2 class="accordion-header" id="flush-headingThree" >
-            <button class="accordion-button collapsed" type = "button" data-toggle = "collapse" data-target = "#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseTwo">
-                <h3 class="fw-light">   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
-                    <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
-                </svg> Nayves-Bayes</h3>
-            </button>
-        </h2>
-        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body"><h5 class="fw-light" th:text="#{J48.information}"></h5></div>
-        </div>
-    </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingFour" >
-                <button class="accordion-button collapsed" type = "button" data-toggle = "collapse" data-target = "#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    <h3 class="fw-light">   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
-                        <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
-                    </svg> IBK</h3>
-                </button>
-            </h2>
-            <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body"><h5 class="fw-light" th:text="#{J48.information}"></h5></div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingFive" >
-                <button class="accordion-button collapsed" type = "button" data-toggle = "collapse" data-target = "#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    <h3 class="fw-light">   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-tree-fill" viewBox="0 0 16 16">
-                        <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777l-3-4.5z"/>
-                    </svg> J48</h3>
-                </button>
-            </h2>
-            <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body"><h5 class="fw-light" th:text="#{J48.information}"></h5></div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
 
 </section>
 
