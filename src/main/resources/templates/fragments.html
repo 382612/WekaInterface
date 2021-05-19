@@ -61,7 +61,145 @@
             <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
         </svg> Back</a>
     </p>
+</div>
 
+<div th:fragment="batchSizeParameter">
+    <label for="batchsize" class="form-label" th:text="#{max.batchsize}">BatchSize</label><br>
+    <input name="batchsize" id="batchsize" type="number" value="100"><br>
+</div>
+
+<div th:fragment="debugParameter">
+    <label for="debug" class="form-label" th:text="#{debug.par}">debug</label><br>
+    <select id="debug" name="debug">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="doNotCheckCapParameter">
+    <label th:text = "#{doNotCheck.par}" class="form-label" for='doNotCheckCapabilities'>doNotCheckCapabilities</label><br>
+    <select id="doNotCheckCapabilities" name="doNotCheckCapabilities">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="numDecimalsParameter">
+    <label th:text="#{num.decimal.par}" class="form-label"  for="numDecimalPlaces">numDecimalPlaces</label><br>
+    <input id="numDecimalPlaces" name="numDecimalPlaces" type="number" value="2">
+</div>
+
+<div th:fragment="minBucketSizeParameter">
+    <label th:text="#{minBucketSize.par}" for="minBucketSize">minBucketSize</label><br>
+    <input id="minBucketSize" name="minBucketSize" type="number" value="6"><br>
+</div>
+
+<div th:fragment="confidenceFactorParameter">
+    <label th:text="#{confidenceFactor.par}" class="form-label" for="confidenceFactor">confidence factor</label><br>
+    <input id="confidenceFactor" name="confidenceFactor" type="number" value="0.25"><br>
+</div>
+
+<div th:fragment="minNumObjectParameter">
+    <label th:text="#{minNumObj.par}" class="form-label" for="minNumObj">minNumObj</label><br>
+    <input id="minNumObj" name="minNumObj" type="number" value="2" min="2"><br>
+</div>
+
+<div th:fragment="numFoldsParameter">
+    <label th:text="#{numFold.par}" class="form-label" for="numFolds">numFolds</label><br>
+    <input id="numFolds" name="numFolds" type="number" value="3"><br>
+</div>
+
+<div th:fragment="prunedParameter">
+    <label th:text="#{pruned.par}" for="pruned" class="form-label">pruned</label><br>
+    <select id="pruned" name="pruned">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="laPlaceParameter">
+    <label th:text="#{laPlace.par}" for="laPlace" class="form-label">pruned</label><br>
+    <select id="laPlace" name="laPlace">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="KnnParameter">
+    <label th:text="#{knn.par}" for="KNN">KNN</label><br>
+    <input id="KNN" name="KNN" type="number" value="1" min="1"><br>
+</div>
+
+<div th:fragment="crossValidateParameter">
+    <label th:text="#{crossValidate.par}" for="crossValidate" class="form-label">cross validate</label><br>
+    <select id="crossValidate" name="crossValidate">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="nnSearchAlgorithmParameter">
+    <label th:text="#{nnsearchAlgorithm.par}" for="nnSearchAlgorithm">nnSearchAlgorithm</label><br>
+    <select id="nnSearchAlgorithm" name="nnSearchAlgorithm">
+        <option value="BallTree">BallTree</option>
+        <option value="CoverTree">CoverTree</option>
+        <option value="FilteredNeighbourSearch">FilteredNeighbourSearch</option>
+        <option value="KDTree">KDtree</option>
+        <option value="LinearNNSearch">LinearNNSearch</option>
+    </select><br>
+</div>
+
+<div th:fragment="ZeroR">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="OneR">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: minBucketSizeParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="KNN">
+    <form class="form">
+        <div th:insert="~{fragments :: KnnParameter}"></div>
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: crossValidateParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: nnSearchAlgorithmParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="NaiveBayes">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="J48">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: confidenceFactorParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: minNumObjectParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+        <div th:insert="~{fragments :: numFoldsParameter}"></div>
+        <div th:insert="~{fragments :: prunedParameter}"></div>
+    </form>
 </div>
 
 <footer th:fragment="footer" class="bg-light text-center text-lg-start fixed-bottom">
