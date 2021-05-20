@@ -3,6 +3,7 @@ package nl.bioinf.wekainterface.webcontrol;
 import nl.bioinf.wekainterface.model.DataReader;
 import nl.bioinf.wekainterface.model.LabelCounter;
 import nl.bioinf.wekainterface.model.WekaClassifier;
+import nl.bioinf.wekainterface.service.ClassificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class ExplorerController {
     private LabelCounter labelCounter;
     @Autowired
     private WekaClassifier wekaClassifier;
+    @Autowired
+    private ClassificationService classificationService;
 
     @GetMapping(value = "/explorer")
     public String getClassifierFormPage(Model model){
@@ -46,18 +49,13 @@ public class ExplorerController {
 
     @PostMapping(value = "/explorer")
     public String postClassifierFormPage(@RequestParam(name = "filename") String fileName,
-                                         @RequestParam(name = "classifier") String classifier,
+                                         @RequestParam(name = "classifier") String classifierName,
                                          Model model, RedirectAttributes redirect) throws Exception {
-        String filePath = exampleFilesFolder + '/' + fileName;
+        String arffFilePath = exampleFilesFolder + '/' + fileName;
 
-        File file = new File(filePath);
-        Instances data = dataReader.readArff(file);
-        String resString = wekaClassifier.test(data, classifier);
-        System.out.println(resString);
-        String[] elements = resString.split("\n");
-        List<String> result = Arrays.asList(elements);
+        List<String> classify = classificationService.classify(arffFilePath, classifierName);
 
-        redirect.addFlashAttribute("results", result);
+        redirect.addFlashAttribute("results", classify);
         return "redirect:/explorer/results";
     }
 
