@@ -75,10 +75,11 @@ public class DataReader implements Reader{
      */
     @Override
     public String saveArff(File file) throws IOException {
-        File tempFile = File.createTempFile("temp-", ".arff", new File("C:/Users/jelle/Desktop/School/Thema11/Practicum/wekaTempFiles"));
+        File tempFile = File.createTempFile("temp-", ".arff", new File(tempFolder));
         Instances instances = readArff(file);
         ArffSaver saver = new ArffSaver();
         saver.setInstances(instances);
+        System.out.println(instances);
         saver.setFile(tempFile);
         saver.writeBatch();
         return tempFile.toString();
