@@ -11,10 +11,10 @@ import java.util.List;
 
 @Service
 public class ClassificationService {
-    public List<String> classify(String arffFileName, String classifierName){
+    public List<String> classify(String arffFilePath, String classifierName){
         try {
             DataReader reader = new DataReader();
-            File arffFile = new File(arffFileName);
+            File arffFile = new File(arffFilePath);
             Instances instances = reader.readArff(arffFile);
             WekaClassifier wekaClassifier = new WekaClassifier();
             String result = wekaClassifier.test(instances, classifierName);
