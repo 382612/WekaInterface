@@ -193,7 +193,7 @@ public class LabelCounter {
      * Given a value round the value to 'numDecimals' decimals
      * @param value double
      * @param numDecimals int number of decimals the value should be rounded to
-     * @return
+     * @return double, rounded value
      */
     private double roundTo(double value, int numDecimals){
         DecimalFormatSymbols dfSymbols = new DecimalFormatSymbols();
