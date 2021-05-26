@@ -4,6 +4,7 @@ import nl.bioinf.wekainterface.model.DataReader;
 import nl.bioinf.wekainterface.model.LabelCounter;
 import nl.bioinf.wekainterface.model.WekaClassifier;
 import nl.bioinf.wekainterface.service.ClassificationService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,13 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import weka.core.Instances;
 
 import java.io.File;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -28,6 +28,8 @@ import java.util.List;
 public class ExplorerController {
     @Value("${example.data.path}")
     private String exampleFilesFolder;
+    @Value("${temp.data.path}")
+    private String tempFolder;
 
     @Autowired
     private DataReader dataReader;
@@ -73,26 +75,25 @@ public class ExplorerController {
     }
 
     @PostMapping(value = "/explorer")
-    public String postExplorerPage(@RequestParam(name = "filename") String fileName,
+    public String postExplorerPage(@RequestParam(name = "inputFile", required = false) MultipartFile multipart,
+                                   @RequestParam(name = "filename", required = false) String fileName,
                                    @RequestParam(name = "classifier") String classifierName,
                                    Model model, RedirectAttributes redirect) throws Exception {
 
-        //@RequestParam(name = "inputFile") File inputFile,
-        //String arffFilePath = dataReader.saveArff(inputFile);
-        //System.out.println(arffFilePath);
+        File arffFile;
 
-//        String arffFilePath = exampleFilesFolder + '/' + fileName;
-//        File arffFile;
-//        if (inputFile.exists()){
-//            System.out.println("file upload");
-//            arffFile = inputFile;
-//        } else {
-//            System.out.println("demo set");
-//        }
+        if (!multipart.isEmpty()){
+            System.out.println("bestand geupload");
+            arffFile = File.createTempFile("temp-", ".arff", new File(tempFolder));
+            InputStream inputStream = multipart.getInputStream();
+            FileUtils.copyInputStreamToFile(inputStream, arffFile);
+        } else {
+            System.out.println("demo data gekozen");
+            String arffFilePath = exampleFilesFolder + '/' + fileName;
+            arffFile = new File(arffFilePath);
+        }
 
-        String arffFilePath = exampleFilesFolder + '/' + fileName;
-
-        List<String> classify = classificationService.classify(arffFilePath, classifierName);
+        List<String> classify = classificationService.classify(arffFile, classifierName);
 
         redirect.addFlashAttribute("results", classify);
         return "redirect:/explorer/results";
