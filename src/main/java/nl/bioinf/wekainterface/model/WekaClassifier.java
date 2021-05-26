@@ -29,7 +29,7 @@ public class WekaClassifier {
      * @return String with results of 10-fold cross validation.
      * @throws Exception
      */
-    public String test(Instances instances, String classifier) throws Exception {
+    public Evaluation test(Instances instances, String classifier) throws Exception {
         weka.classifiers.Classifier rule;
         switch (classifier){
             case "ZeroR":
@@ -52,11 +52,20 @@ public class WekaClassifier {
         }
         Evaluation evaluation = new Evaluation(instances);
         evaluation.crossValidateModel(rule, instances, 10, new Random(1));
-        return evaluation.toSummaryString();
+        return evaluation;
     }
 
     public List<String> getClassifierNames(){
         String[] names = {"ZeroR", "OneR", "NaivesBayes", "J48", "IBK"};
         return Arrays.asList(names);
+    }
+
+    public static void main(String[] args) throws Exception {
+        DataReader reader = new DataReader();
+        File file = new File("/Users/Marijke/wekafiles/data/weather.nominal.arff");
+        Instances instances = reader.readArff(file);
+        WekaClassifier classifier = new WekaClassifier();
+        Evaluation evaluation = classifier.test(instances, "ZeroR");
+        System.out.println();
     }
 }

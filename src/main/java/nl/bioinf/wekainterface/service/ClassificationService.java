@@ -3,6 +3,7 @@ package nl.bioinf.wekainterface.service;
 import nl.bioinf.wekainterface.model.DataReader;
 import nl.bioinf.wekainterface.model.WekaClassifier;
 import org.springframework.stereotype.Service;
+import weka.classifiers.evaluation.Evaluation;
 import weka.core.Instances;
 
 import java.io.File;
@@ -11,14 +12,12 @@ import java.util.List;
 
 @Service
 public class ClassificationService {
-    public List<String> classify(File arffFile, String classifierName){
+    public Evaluation classify(File arffFile, String classifierName){
         try {
             DataReader reader = new DataReader();
             Instances instances = reader.readArff(arffFile);
             WekaClassifier wekaClassifier = new WekaClassifier();
-            String result = wekaClassifier.test(instances, classifierName);
-            String[] resultElements = result.split("\n");
-            return Arrays.asList(resultElements);
+            return wekaClassifier.test(instances, classifierName);
         } catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException("something went wrong " + e.getMessage());
