@@ -14,4 +14,4 @@ gradlew.bat
 .idea/
 build/
 settings.gradle
-applications.properties
+application.properties

@@ -14,7 +14,6 @@ import java.util.List;
 @Controller
 
 public class InformationController {
-
     @Value("#{'${youtube.link}'.split(',')}")
     private List<String> youtubeLink;
 

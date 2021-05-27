@@ -3,11 +3,16 @@ package nl.bioinf.wekainterface.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
+
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.experiment.Stats;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.*;
 
 /**
@@ -28,7 +33,7 @@ public class LabelCounter {
      */
     public void readData(File file) throws IOException {
         DataReader reader = new DataReader();
-        data = reader.readArff(file);
+        this.data = reader.readArff(file);
     }
 
     /**
@@ -38,9 +43,9 @@ public class LabelCounter {
      * at 0.
      */
     public void setGroups(){
-        for (int i=0;i<this.data.classAttribute().numValues();i++) { // iterate over each class label
+        for (int classLabelIndex=0;classLabelIndex<this.data.classAttribute().numValues();classLabelIndex++) {
             // Setting the class label as the key for the first Map, in the case of weather.nominal = {yes,no}
-            String classLabel = this.data.classAttribute().value(i);
+            String classLabel = this.data.classAttribute().value(classLabelIndex);
             // creating the 2nd Map with attribute names as keys and labels as value's
             AttributeMap attributes = setAttributes();
 
@@ -54,22 +59,27 @@ public class LabelCounter {
      * @return Map<Attribute name, Map<Attribute label, Label occurrence>>
      */
     private AttributeMap setAttributes(){
-        // creating the Map with attribute names as keys and labels as value's
         AttributeMap attributes = new AttributeMap();
+        int numAttributes = this.data.numAttributes();
+        for (int attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++){
 
-        for (int u = 0; u < this.data.numAttributes(); u++){ // iterating over each attribute name
+            String attributeName = this.data.attribute(attributeIndex).name();
 
-            // setting attribute name and adding it to the label list
-            String attribute = this.data.attribute(u).name();
-
-            // attribute array to later count the occurrence of each label for each attribute
-            if (!attributeArray.contains(attribute)){
-                attributeArray.add(attribute);
+            // attributeName array to later count the occurrence of each label for each attributeName
+            if (!attributeArray.contains(attributeName)){
+                attributeArray.add(attributeName);
             }
 
-            // Setting labels when the attribute isn't the class attribute I.E. the attribute that is being classified
-            if (u != this.data.classIndex()){
-                setLabels(u, attribute, attributes);
+            boolean isNominal = this.data.attribute(attributeIndex).isNominal();
+            boolean isNumeric = this.data.attribute(attributeIndex).isNumeric();
+            // Setting labels when the attributeName isn't the class attributeName I.E. the attributeName that is being classified
+            if (attributeIndex != this.data.classIndex()){
+                if (isNominal){
+                    setLabelsNominal(attributeIndex, attributeName, attributes);
+                }
+                else if (isNumeric){
+                    setLabelsNumeric(attributeIndex, attributeName, attributes);
+                }
             }
         }
         return attributes;
@@ -77,16 +87,52 @@ public class LabelCounter {
 
     /**
      * For the given attribute/attribute index, add each label to the Map and set its value to 0.
-     * @param attributeIndex index of the attribute that is currently being added to Map<String, Map<String, Integer>> as the key
-     * @param attribute attribute name
+     * @param attributeIndex index of the attribute
+     * @param attributeName attribute name
      * @param attributeMap Map<Attribute name, Map<Attribute label, Label occurrence>> where attribute labels need to be added
      */
-    private void setLabels(int attributeIndex, String attribute, AttributeMap attributeMap){
-        // bottom level map that holds the label as key and it's occurrence count as value
+    private void setLabelsNominal(int attributeIndex, String attributeName, AttributeMap attributeMap){
         LabelMap labelMap = new LabelMap();
-        for (int y=0;y<this.data.attribute(attributeIndex).numValues();y++){ // iterate over each label
-            String label = this.data.attribute(attributeIndex).value(y);
-            labelMap.addLabel(label); // label is added with an occurrence of 0
+        int numValues = this.data.attribute(attributeIndex).numValues();
+        for (int valueIndex = 0;valueIndex < numValues; valueIndex++){
+            String label = this.data.attribute(attributeIndex).value(valueIndex);
+            labelMap.addLabel(label);
+        }
+        attributeMap.addAttribute(attributeName, labelMap);
+    }
+
+    /**
+     * For the given attribute/attribute index, make intervals that represent a group of numeric values.
+     * This is represented like: 'x - y' meaning the label represents values between x and y.
+     * The amount of intervals is determined by how many times the Standard Deviation fits in the difference between
+     * the minimum and maximum value of the given attribute.
+     * @param attributeIndex index of the attribute
+     * @param attribute attribute name
+     * @param attributeMap Map<Attribute name, Map< [X - Y] Interval, Label occurrence>>
+     */
+    private void setLabelsNumeric(int attributeIndex, String attribute, AttributeMap attributeMap){
+        LabelMap labelMap = new LabelMap();
+        Stats stats = this.data.attributeStats(attributeIndex).numericStats;
+        // Number of groups is based the amount of times the standard deviation fits into the interval between the
+        // minimum and maximum value of the attribute
+        double numGroups = Math.round((stats.max - stats.min) / stats.stdDev);
+
+        // Number of decimals used in the dataset
+        int numDecimals = numDecimals(stats.min);
+        double groupInterval = roundTo((stats.max - stats.min) / numGroups, numDecimals);
+        double intervalStart = stats.min;
+
+        for (int groupIndex = 0; groupIndex < numGroups; groupIndex++){
+
+            String labelGroup;
+            double intervalEnd = roundTo((intervalStart + groupInterval), numDecimals);
+            if (groupIndex == numGroups-1){
+                labelGroup = intervalStart + "-" + roundTo((stats.max + roundTo((groupInterval/10), numDecimals)), numDecimals);
+            }else {
+                labelGroup = intervalStart + "-" + intervalEnd;
+            }
+            labelMap.addLabel(labelGroup);
+            intervalStart = roundTo(groupInterval + intervalStart, numDecimals);
         }
         attributeMap.addAttribute(attribute, labelMap);
     }
@@ -95,23 +141,89 @@ public class LabelCounter {
      * For each label in the instance, increase it's occurrence count by 1, depending on which class label it has.
      */
     public void countLabels(){
-        for (int i = 0; i < data.numInstances(); i++){
-            Instance instance = data.instance(i);
+        for (int instanceIndex = 0; instanceIndex < data.numInstances(); instanceIndex++){
+
+            Instance instance = data.instance(instanceIndex);
             String[] values = instance.toString().split(",");
-            for (int u = 0; u < instance.numValues(); u++){ // iterate over the values in the instance
-                // attributeMap is the map containing the attribute as the key and the labels + their counts as the
-                // Value in the form of a submap
-                AttributeMap attributeMap = groups.get(values[instance.classIndex()]); // Get attribute map for the right class label
-                if(u != instance.classIndex()){
-                    // getting the labels and their count for the attribute
-                    String attribute = attributeArray.get(u);
+
+            for (int valueIndex = 0; valueIndex < instance.numValues(); valueIndex++){
+                AttributeMap attributeMap = groups.get(values[instance.classIndex()]);
+                if(valueIndex != instance.classIndex()){
+                    String attribute = attributeArray.get(valueIndex);
                     LabelMap labelMap = attributeMap.getLabelMap(attribute);
 
-                    String label = values[u]; // The label of the attribute attribute:label windy:TRUE
-                    labelMap.incrementLabel(label); // adding a count
+                    try{//If value is numeric
+                        double value = Double.parseDouble(values[valueIndex]);
+                        countNumeric(value, labelMap);
+                    }catch (NumberFormatException e){//Not numeric
+                        countNominal(values[valueIndex], labelMap);
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * Given a value determine in which [x-y] interval it sits and increment the occurrence of that [x-y] label
+     * @param value numeric value
+     * @param labelMap Map<[x-y], [Occurrence of value between x and y]>
+     */
+    private void countNumeric(double value, LabelMap labelMap){
+        for (Map.Entry<String, Integer> entry: labelMap.getLabelMap().entrySet()){
+            String[] interval = entry.getKey().split("-");// Iterate over labels in labelMap
+            boolean betweenInterval = value >= Double.parseDouble(interval[0]) && value < Double.parseDouble(interval[1]);
+
+            if (betweenInterval){
+                labelMap.incrementLabel(entry.getKey());
+                break;
+            }
+        }
+    }
+
+    /**
+     * Given a label, increase the occurrence of that label in the labelMap
+     * @param label String
+     * @param labelMap labelMap<label, occurrence of label>
+     */
+    private void countNominal(String label, LabelMap labelMap){
+        labelMap.incrementLabel(label);
+    }
+
+    /**
+     * Given a value round the value to 'numDecimals' decimals
+     * @param value double
+     * @param numDecimals int number of decimals the value should be rounded to
+     * @return double, rounded value
+     */
+    private double roundTo(double value, int numDecimals){
+        DecimalFormatSymbols dfSymbols = new DecimalFormatSymbols();
+        dfSymbols.setDecimalSeparator('.');
+        DecimalFormat df = new DecimalFormat("#." + "#".repeat(Math.max(0, numDecimals)), dfSymbols);
+        String decimals = Double.toString(value).split("\\.")[1];
+
+        if(numDecimals < decimals.length()){
+
+            int lastDigit = Character.getNumericValue(decimals.toCharArray()[numDecimals]);
+            if (lastDigit >= 5){
+                df.setRoundingMode(RoundingMode.UP);
+            }else {
+                df.setRoundingMode(RoundingMode.DOWN);
+            }
+            return Double.parseDouble(df.format(value));
+        }
+        // If the value is already rounded to the right amount of decimals return the given value
+        return value;
+    }
+
+    /**
+     * given a value, determine the amount of decimals
+     * @param d double
+     * @return int, the amount of decimals
+     */
+    private int numDecimals(double d){
+        String text = Double.toString(Math.abs(d));
+        int integerPlaces = text.indexOf('.');
+        return text.length() - integerPlaces - 1;
     }
 
     public List<String> getAttributeArray() {
@@ -141,7 +253,7 @@ public class LabelCounter {
      * @throws IOException if file doesn't exist
      */
     public static void main(String[] args) throws IOException {
-        String file = "C:/Program Files/Weka-3-8-4/data/weather.nominal.arff";
+        String file = "C:/Program Files/Weka-3-8-4/data/iris.arff";
         LabelCounter labelCounter = new LabelCounter();
         labelCounter.readData(new File(file));
         labelCounter.setGroups();
