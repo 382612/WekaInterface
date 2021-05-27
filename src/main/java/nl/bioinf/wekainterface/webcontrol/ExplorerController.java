@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import weka.classifiers.evaluation.Evaluation;
+import weka.core.Instances;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,31 +78,32 @@ public class ExplorerController {
 
     @PostMapping(value = "/explorer")
     public String postExplorerPage(@RequestParam(name = "inputFile", required = false) MultipartFile multipart,
-                                   @RequestParam(name = "filename", required = false) String fileName,
+                                   @RequestParam(name = "filename", required = false) String demoFile,
                                    @RequestParam(name = "classifier") String classifierName,
                                    Model model, RedirectAttributes redirect) throws Exception {
-
         File arffFile;
 
         if (!multipart.isEmpty()){
-            System.out.println("bestand geupload");
             arffFile = File.createTempFile("temp-", ".arff", new File(tempFolder));
             InputStream inputStream = multipart.getInputStream();
             FileUtils.copyInputStreamToFile(inputStream, arffFile);
         } else {
-            System.out.println("demo data gekozen");
-            String arffFilePath = exampleFilesFolder + '/' + fileName;
+            String arffFilePath = exampleFilesFolder + '/' + demoFile;
             arffFile = new File(arffFilePath);
         }
 
-        List<String> classify = classificationService.classify(arffFile, classifierName);
+        Evaluation evaluation = classificationService.classify(arffFile, classifierName);
 
-        redirect.addFlashAttribute("results", classify);
+        redirect.addFlashAttribute("evaluation", evaluation);
         return "redirect:/explorer/results";
     }
 
     @GetMapping(value = "/explorer/results")
-    public String getResultsPage(Model model){
+    public String getResultsPage(Model model) throws Exception {
+        File file = new File("/Users/Marijke/wekafiles/data/weather.nominal.arff");
+        Instances instances = dataReader.readArff(file);
+        Evaluation evaluation = wekaClassifier.test(instances, "ZeroR");
+        model.addAttribute(evaluation);
         return "results";
     }
 
