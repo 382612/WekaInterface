@@ -3,13 +3,14 @@
 <head>
 <!--    Author: Jelle Becirspahic 387615-->
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Klessify</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" th:fragment="navbar">
+<!--    -->
     <div class="container fluid justify-content-start">
         <a class="navbar-brand" th:href="@{'/home'}">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="d-inline-block align-center" viewBox="0 0 16 16">
@@ -23,10 +24,10 @@
                     <a th:href="@{'/home'}" th:text="#{navbar.home}" class="nav-link">_home_</a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{'/home'}" th:text="#{navbar.about}" class="nav-link">_About_</a>
+                    <a th:href="@{'/about'}" th:text="#{navbar.about}" class="nav-link">_About_</a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{'/home'}" th:text="#{navbar.contact}" class="nav-link">_Contact_</a>
+                    <a th:href="@{'/contact'}" th:text="#{navbar.contact}" class="nav-link">_Contact_</a>
                 </li>
                 <li class="nav-item">
                     <a th:href="@{'https://www.cs.waikato.ac.nz/ml/weka/'}" href="https://www.cs.waikato.ac.nz/ml/weka/"
@@ -38,30 +39,170 @@
 </nav>
 
 
+<div th:fragment="AlgoButtons" >
+    <!--    Author: Bart Engels 382612-->
+    <p>
+        <a href="/ZeroR" class="btn btn-danger my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        </svg> ZeroR</a>
+        <a href="/OneR" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dice-1-fill" viewBox="0 0 16 16">
+            <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm5 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+        </svg> OneR</a>
+        <a href="/NayvesBayes" class="btn btn-danger my-2"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+        </svg> Nayves Bayes</a>
+        <a href="/IBK" class="btn btn-primary my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+            <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+        </svg> IBK</a>
+        <a href="/j48" class="btn btn-success my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tree-fill" viewBox="0 0 16 16">
+            <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777l-3-4.5z"/>
+        </svg> J48</a>
+        <a href="/information" class="btn btn-danger my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+        </svg> Back</a>
+    </p>
+</div>
+
+<div th:fragment="batchSizeParameter">
+    <label for="batchsize" class="form-label" th:text="#{max.batchsize}">BatchSize</label><br>
+    <input name="batchsize" id="batchsize" type="number" value="100"><br>
+</div>
+
+<div th:fragment="debugParameter">
+    <label for="debug" class="form-label" th:text="#{debug.par}">debug</label><br>
+    <select id="debug" name="debug">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="doNotCheckCapParameter">
+    <label th:text = "#{doNotCheck.par}" class="form-label" for='doNotCheckCapabilities'>doNotCheckCapabilities</label><br>
+    <select id="doNotCheckCapabilities" name="doNotCheckCapabilities">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="numDecimalsParameter">
+    <label th:text="#{num.decimal.par}" class="form-label"  for="numDecimalPlaces">numDecimalPlaces</label><br>
+    <input id="numDecimalPlaces" name="numDecimalPlaces" type="number" value="2">
+</div>
+
+<div th:fragment="minBucketSizeParameter">
+    <label th:text="#{minBucketSize.par}" for="minBucketSize">minBucketSize</label><br>
+    <input id="minBucketSize" name="minBucketSize" type="number" value="6"><br>
+</div>
+
+<div th:fragment="confidenceFactorParameter">
+    <label th:text="#{confidenceFactor.par}" class="form-label" for="confidenceFactor">confidence factor</label><br>
+    <input id="confidenceFactor" name="confidenceFactor" type="number" value="0.25"><br>
+</div>
+
+<div th:fragment="minNumObjectParameter">
+    <label th:text="#{minNumObj.par}" class="form-label" for="minNumObj">minNumObj</label><br>
+    <input id="minNumObj" name="minNumObj" type="number" value="2" min="2"><br>
+</div>
+
+<div th:fragment="numFoldsParameter">
+    <label th:text="#{numFold.par}" class="form-label" for="numFolds">numFolds</label><br>
+    <input id="numFolds" name="numFolds" type="number" value="3"><br>
+</div>
+
+<div th:fragment="prunedParameter">
+    <label th:text="#{pruned.par}" for="pruned" class="form-label">pruned</label><br>
+    <select id="pruned" name="pruned">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="laPlaceParameter">
+    <label th:text="#{laPlace.par}" for="laPlace" class="form-label">pruned</label><br>
+    <select id="laPlace" name="laPlace">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="KnnParameter">
+    <label th:text="#{knn.par}" for="KNN">KNN</label><br>
+    <input id="KNN" name="KNN" type="number" value="1" min="1"><br>
+</div>
+
+<div th:fragment="crossValidateParameter">
+    <label th:text="#{crossValidate.par}" for="crossValidate" class="form-label">cross validate</label><br>
+    <select id="crossValidate" name="crossValidate">
+        <option th:text="#{true}" value="true">True</option>
+        <option th:text="#{false}" value="false">False</option>
+    </select><br>
+</div>
+
+<div th:fragment="nnSearchAlgorithmParameter">
+    <label th:text="#{nnsearchAlgorithm.par}" for="nnSearchAlgorithm">nnSearchAlgorithm</label><br>
+    <select id="nnSearchAlgorithm" name="nnSearchAlgorithm">
+        <option value="BallTree">BallTree</option>
+        <option value="CoverTree">CoverTree</option>
+        <option value="FilteredNeighbourSearch">FilteredNeighbourSearch</option>
+        <option value="KDTree">KDtree</option>
+        <option value="LinearNNSearch">LinearNNSearch</option>
+    </select><br>
+</div>
+
+<div th:fragment="ZeroR">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="OneR">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: minBucketSizeParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="KNN">
+    <form class="form">
+        <div th:insert="~{fragments :: KnnParameter}"></div>
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: crossValidateParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: nnSearchAlgorithmParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="NaiveBayes">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+    </form>
+</div>
+
+<div th:fragment="J48">
+    <form class="form">
+        <div th:insert="~{fragments :: batchSizeParameter}"></div>
+        <div th:insert="~{fragments :: confidenceFactorParameter}"></div>
+        <div th:insert="~{fragments :: debugParameter}"></div>
+        <div th:insert="~{fragments :: doNotCheckCapParameter}"></div>
+        <div th:insert="~{fragments :: minNumObjectParameter}"></div>
+        <div th:insert="~{fragments :: numDecimalsParameter}"></div>
+        <div th:insert="~{fragments :: numFoldsParameter}"></div>
+        <div th:insert="~{fragments :: prunedParameter}"></div>
+    </form>
+</div>
+
 <footer th:fragment="footer" class="bg-light text-center text-lg-start fixed-bottom">
-    <div class="row">
-        <div class="col-4 text-center">
-            <h4>Hanze contact info</h4>
-            <hr style="width: 75%; margin: auto">
-            <p>Zernikeplein 11</p>
-            <p>9747 AS Groningen</p>
-            <p>(050) 595 55 55</p>
-        </div>
-        <div class="col-4 text-center">
-            <h4 th:text="#{student.names}">_Students_</h4>
-            <hr style="width: 75%; margin: auto">
-            <p>Bart Engels</p>
-            <p>Jelle Becirspahic</p>
-            <p>Marijke Eggink</p>
-        </div>
-        <div class="col-4 text-center">
-            <h4 th:text="#{student.email}">_Student_Email_</h4>
-            <hr style="width: 75%; margin: auto">
-            <p>b.engels@st.hanze.nl</p>
-            <p>j.d.becirspahic@st.hanze.nl</p>
-            <p>m.eggink@st.hanze.nl</p>
-        </div>
-    </div>
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
         © 2020 Copyright:

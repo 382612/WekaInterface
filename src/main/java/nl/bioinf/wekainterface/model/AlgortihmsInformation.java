@@ -1,19 +1,33 @@
 package nl.bioinf.wekainterface.model;
 
-public class AlgortihmsInformation {
-    private final String name;
-    private final String information;
+import java.io.*;
 
-    public AlgortihmsInformation(String name, String informtation) {
-        this.name = name;
-        this.information = informtation;
+/**
+ * @author Bart Engels
+ */
+
+
+public class AlgortihmsInformation implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private final String algorithmsInformation;
+    private final String[] algorithmsParameters;
+
+
+
+    public AlgortihmsInformation(String algortihmsInformation, String[] algorithmsParameters) {
+        this.algorithmsInformation = algortihmsInformation;
+        this.algorithmsParameters = algorithmsParameters;
     }
 
-    public String getName() {
-        return name;
+    public String getAlgorithmsInformation() {
+        return algorithmsInformation;
     }
 
-    public String getInformation() {
-        return information;
+    public String[] getAlgorithmsParameters() {
+        return algorithmsParameters;
     }
+
+
+
 }
+

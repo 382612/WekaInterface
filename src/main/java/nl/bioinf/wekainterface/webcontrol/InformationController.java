@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
+/**
+ * @author Bart Engels
+ */
+
 @Controller
 
 public class InformationController {
 
-    @Value("#{'${youtube.link'.split(',')}")
+    @Value("#{'${youtube.link}'.split(',')}")
     private List<String> youtubeLink;
 
     @RequestMapping(value="information")

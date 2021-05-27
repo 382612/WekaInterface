@@ -1,18 +1,30 @@
-nl/bioinf/wekainterface/WekaInterfaceApplication.java
- nl.bioinf.wekainterface.WekaInterfaceApplication
-nl/bioinf/wekainterface/model/Reader.java
- nl.bioinf.wekainterface.model.Reader
-nl/bioinf/wekainterface/model/DataReader.java
- nl.bioinf.wekainterface.model.DataReader
-nl/bioinf/wekainterface/model/LabelCounter.java
- nl.bioinf.wekainterface.model.LabelCounter
-nl/bioinf/wekainterface/Config/ApplicationConfig.java
- nl.bioinf.wekainterface.Config.ApplicationConfig
-nl/bioinf/wekainterface/classifiers/ZeroRClassifier.java
- nl.bioinf.wekainterface.classifiers.ZeroRClassifier
 nl/bioinf/wekainterface/webcontrol/InformationController.java
  nl.bioinf.wekainterface.webcontrol.InformationController
-nl/bioinf/wekainterface/model/AlgortihmsInformation.java
- nl.bioinf.wekainterface.model.AlgortihmsInformation
+nl/bioinf/wekainterface/WekaInterfaceApplication.java
+ nl.bioinf.wekainterface.WekaInterfaceApplication
+nl/bioinf/wekainterface/model/DataReader.java
+ nl.bioinf.wekainterface.model.DataReader
+nl/bioinf/wekainterface/service/ClassificationService.java
+ nl.bioinf.wekainterface.service.ClassificationService
+nl/bioinf/wekainterface/model/LabelMap.java
+ nl.bioinf.wekainterface.model.LabelMap
+nl/bioinf/wekainterface/model/WekaClassifier.java
+ nl.bioinf.wekainterface.model.WekaClassifier
+nl/bioinf/wekainterface/model/AttributeMap.java
+ nl.bioinf.wekainterface.model.AttributeMap
 nl/bioinf/wekainterface/webcontrol/HomeController.java
  nl.bioinf.wekainterface.webcontrol.HomeController
+nl/bioinf/wekainterface/model/Reader.java
+ nl.bioinf.wekainterface.model.Reader
+nl/bioinf/wekainterface/model/AlgortihmsInformation.java
+ nl.bioinf.wekainterface.model.AlgortihmsInformation
+nl/bioinf/wekainterface/model/LabelCounter.java
+ nl.bioinf.wekainterface.model.LabelCounter
+nl/bioinf/wekainterface/webcontrol/ExplorerController.java
+ nl.bioinf.wekainterface.webcontrol.ExplorerController
+nl/bioinf/wekainterface/Config/ApplicationConfig.java
+ nl.bioinf.wekainterface.Config.ApplicationConfig
+nl/bioinf/wekainterface/service/SerializationService.java
+ nl.bioinf.wekainterface.service.SerializationService
+nl/bioinf/wekainterface/webcontrol/HistoryController.java
+ nl.bioinf.wekainterface.webcontrol.HistoryController

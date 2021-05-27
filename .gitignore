@@ -5,11 +5,12 @@
 /dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
+*.class
 /httpRequests/
 *.iml
 gradlew/
 gradlew.bat
-*.gradle/
+.gradle/
 .idea/
 build/
 settings.gradle
